@@ -125,7 +125,6 @@ end)
 
 local NpcMoveSpeedButton = menu3:AddRange({ icon = '⏳', label = 'Ped Move Speed', min = 1, max = 3, value = 1, saveOnUpdate = true })
 NpcMoveSpeedButton:On('select', function(item, value)
-    -- print(('FROM %s to %s YOU SELECTED %s'):format(item.Min, item.Max, value))
     Selected_Ped_Speed = value
 end)
 NpcMoveSpeedButton:On('change', function(item, newValue, oldValue)
@@ -181,10 +180,10 @@ ChangeObjButton:On('select', function(item, newValue, oldValue)
         submitText = "Place Prop",
         inputs = {
             {
-                text = "Name of Prop", -- text you want to be displayed as a place holder
-                name = "prop", -- name of the input should be unique otherwise it might override
-                type = "text", -- type of the input
-                isRequired = true -- Optional [accepted values: true | false] but will submit the form if no value is inputted
+                text = "Name of Prop",
+                name = "prop",
+                type = "text",
+                isRequired = true
             },
         },
     })
@@ -261,16 +260,16 @@ PlacePfx:On('select', function(item, newValue, oldValue)
         submitText = "Place Prop",
         inputs = {
             {
-                text = "Dict of Ptfx", -- text you want to be displayed as a place holder
-                name = "dict", -- name of the input should be unique otherwise it might override
-                type = "text", -- type of the input
-                isRequired = true -- Optional [accepted values: true | false] but will submit the form if no value is inputted
+                text = "Dict of Ptfx",
+                name = "dict",
+                type = "text",
+                isRequired = true
             },
             {
-                text = "Name of Ptfx", -- text you want to be displayed as a place holder
-                name = "ptfx", -- name of the input should be unique otherwise it might override
-                type = "text", -- type of the input
-                isRequired = true -- Optional [accepted values: true | false] but will submit the form if no value is inputted
+                text = "Name of Ptfx",
+                name = "ptfx",
+                type = "text",
+                isRequired = true
             },
         },
     })
@@ -328,7 +327,6 @@ function OpenPlacedObjects(object, key)
                     DeleteObject(object)
                     SetEntityAsNoLongerNeeded(object)
                     table.remove(SpawnedObjects, key)
-                    -- TriggerServerEvent('qb-admin:server:'..values, player) -- Keeping this so I can remember how to use this lol
                 elseif values == "testbut2" then
                     OutlineBool = not OutlineBool
                     SetEntityDrawOutline(object, OutlineBool)
@@ -369,10 +367,10 @@ ChangePedButton:On('select', function(item, newValue, oldValue)
         submitText = "Place Ped",
         inputs = {
             {
-                text = "Name of Ped", -- text you want to be displayed as a place holder
-                name = "prop", -- name of the input should be unique otherwise it might override
-                type = "text", -- type of the input
-                isRequired = true -- Optional [accepted values: true | false] but will submit the form if no value is inputted
+                text = "Name of Ped",
+                name = "prop",
+                type = "text",
+                isRequired = true
             },
         },
     })
@@ -407,7 +405,6 @@ local DeletePedsButton = menu5:AddButton({
 DeletePedsButton:On('select', function(item, newValue, oldValue)
     for k, v in pairs(SpawnedPed) do
         SetEntityVisible(v, false)
-        -- NetworkRequestControlOfEntity(v)
         local NetID = NetworkGetNetworkIdFromEntity(v)
         if NetworkDoesNetworkIdExist(NetID) then
             SetNetworkIdCanMigrate(NetID, false)
@@ -567,7 +564,6 @@ function stopCam(teleport, easeAmount)
 
         ClearFocus()
         NetworkClearVoiceProximityOverride()
-        -- DisplayRadar(true)
     end
     if Config.Debug then print('Cams no longer active') end
     CAM_ACTIVE = false -- Failsafe i guess
@@ -899,7 +895,6 @@ function doCamFrame()
                     tempObj = CreateObject(GetHashKey(EntityHash), 0,0,0, false, false, false)
                     SetEntityAlpha(tempObj, 175)
                     SetEntityCollision(tempObj, false, false)
-                    -- PlaceObjectOnGroundProperly(tempObj)
                     heading = GetEntityHeading(tempObj)
                 else
                     Draw2DText('Hash: ~b~'..EntityHash..'~w~', 4, {255, 255, 255}, 0.4, 0.55, 0.888)
@@ -935,7 +930,6 @@ function doCamFrame()
                     SetEntityHeading(tempObj2, ObjectHeading)
                     SetEntityAlpha(tempObj2, 175)
                     SetEntityCollision(tempObj2, false, false)
-                    -- PlaceObjectOnGroundProperly(tempObj)
                     heading = GetEntityHeading(tempObj2)
                 else
                     SetEntityCoords(tempObj2, hitCoords[1], hitCoords[2], hitCoords[3])
@@ -974,7 +968,6 @@ function doCamFrame()
                     tempObj = CreatePed(34, PedHash, 0.0, 0.0, 0.0, 0.0, false, false)
                     SetEntityAlpha(tempObj, 175, false)
                     SetEntityCollision(tempObj, false, false)
-                    -- PlaceObjectOnGroundProperly(tempObj)
                     heading = GetEntityHeading(tempObj)
                 else
                     SetEntityCoords(tempObj, hitCoords[1], hitCoords[2], hitCoords[3])
@@ -1038,8 +1031,6 @@ function PlacePed(ped, coords, heading)
     SetEntityMaxHealth(PlacedPed, 500)
     SetEntityHealth(PlacedPed, 500)
     FreezeEntityPosition(PlacedPed, false)
-    -- SetEntityAsMissionEntity(PlacedPed, true, true)
-    -- SetEntityAsNoLongerNeeded(PlacedPed)
     local NetID = NetworkGetNetworkIdFromEntity(PlacedPed)
     if Config.Debug then print('NetID: ',NetID) end
     if NetworkDoesNetworkIdExist(NetID) then
@@ -1065,18 +1056,6 @@ RegisterNetEvent("tnj-editor:client:syncPfx", function(hitCoords, asset, name) -
     StopParticleFxLooped(effect, 0)
 end)
 
------------------------------------- Thread(s)
-
--- CreateThread(function() -- Unused, Moved to a function
---     local ready = false
---     while true do
---         Wait(0)
---         if NetworkIsSessionStarted() and not IsPauseMenuActive() then
---             doCamFrame()
---         end
---     end
--- end)
-
 ------------------------------------ Events
 
 AddEventHandler('onResourceStop', function(resourceName)
@@ -1097,7 +1076,6 @@ AddEventHandler('onResourceStop', function(resourceName)
         end
         for k, v in pairs(SpawnedPed) do
             SetEntityVisible(v, false)
-            -- NetworkRequestControlOfEntity(v)
             local NetID = NetworkGetNetworkIdFromEntity(v)
             if NetworkDoesNetworkIdExist(NetID) then
                 SetNetworkIdCanMigrate(NetID, false)
