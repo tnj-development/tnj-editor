@@ -1,6 +1,6 @@
 Config = {}
 
-Config.Debug = true
+Config.Debug = false
 Config.MinCamSpeed = 5
 Config.MaxCamSpeed = 100
 Config.Licenses = {
