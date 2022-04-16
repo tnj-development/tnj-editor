@@ -6,9 +6,5 @@ end)
 
 QBCore.Commands.Add('openeditor', 'Opens the Editor', {}, false, function(source, args)
     local src = source
-    if QBCore.Functions.HasPermission(src, 'admin') or IsPlayerAceAllowed(src, 'command') then
-        TriggerClientEvent('aj:togglecam', src)
-    else
-    TriggerClientEvent('QBCore:Notify', src, "Access Denied")
-    end
+    TriggerClientEvent('aj:togglecam', src)
 end)

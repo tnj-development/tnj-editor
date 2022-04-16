@@ -1088,22 +1088,34 @@ AddEventHandler('onResourceStop', function(resourceName)
     end
 end)
 
+local function GetLicense()
+    for k, v in pairs(Config.Licenses) do
+		if QBCore.Functions.GetPlayerData().license == v then
+			return v
+		end
+	end
+end
+
 local ready = false
 RegisterNetEvent('aj:togglecam', function()
-    ready = not ready
+    if QBCore.Functions.GetPlayerData().license == GetLicense() then
+        ready = not ready
 
-    CreateThread(function()
-        while ready do
-            Wait(5)
-            if NetworkIsSessionStarted() and not IsPauseMenuActive() then
-                doCamFrame()
+        CreateThread(function()
+            while ready do
+                Wait(5)
+                if NetworkIsSessionStarted() and not IsPauseMenuActive() then
+                    doCamFrame()
+                end
             end
-        end
-    end)
+        end)
 
-    if CAM_ACTIVE then
-        stopCam(false, 2000)
+        if CAM_ACTIVE then
+            stopCam(false, 2000)
+        else
+            startCam()
+        end
     else
-        startCam()
+        QBCore.Functions.Notify('You cant use this!', 'error')
     end
 end)
