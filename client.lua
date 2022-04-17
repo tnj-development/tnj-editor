@@ -1,3 +1,4 @@
+local QBCore = exports['qb-core']:GetCoreObject()
 ------------------------------------ Vars
 local CAM_ACTIVE = false
 local cam
